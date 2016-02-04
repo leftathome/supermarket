@@ -13,10 +13,12 @@ redis:
   expose:
     - "6379:6379"
 web:
-  build: .
-  command: foreman start
+  image: leftathome/supermarket
   environment:
-    - RAILS_ENV=test
+    - DB_HOST=db
+    - DB_USERNAME=supermarket
+    - DB_PASSWORD=docker_supermarket
+    - RAILS_ENV=development
     - REDIS_URL=redis://redis:6379/0/supermarket
   volumes:
     - .:/supermarket
