@@ -6,7 +6,7 @@ MAINTAINER Steven Wagner "leftathome@gmail.com"
 ENV HOME /root
 
 # Use baseimage-docker's init system.
-CMD ["foreman start"]
+CMD ["foreman","start"]
 
 # === 2 ===
 # Start Nginx / Passenger
