@@ -1,5 +1,13 @@
+data:
+  image: redis
+  volumes:
+    - /data/postgres:/var/lib/postgresql/data
+    # - /data/redis
+    #- /data/supermarket:/supermarket/public
 db:
   image: postgres
+  volumes_from: 
+    - data
   environment:
     - POSTGRES_USER=supermarket
     - POSTGRES_PASSWORD=docker_supermarket
@@ -7,23 +15,29 @@ db:
   env_file:
     - .env
   expose:
-    - "5432:5432"
+    - 5432
 redis:
+  volumes_from: 
+    - data
   image: redis
   expose:
-    - "6379:6379"
+    - 6379
 web:
+  volumes_from: 
+    - data
   image: leftathome/supermarket
   environment:
+    - POSTGRES_IP=db
     - DB_HOST=db
     - DB_USERNAME=supermarket
     - DB_PASSWORD=docker_supermarket
     - RAILS_ENV=development
     - REDIS_URL=redis://redis:6379/0/supermarket
-  volumes:
-    - .:/supermarket
+  #volumes:
+  #  - .:/supermarket
   ports:
     - "3000:3000"
   links:
     - db
     - redis
+  command: bundle exec foreman start
