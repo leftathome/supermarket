@@ -34,6 +34,7 @@ RUN bundle install
 # Add the rails app
 ADD . /supermarket
 WORKDIR /supermarket
+RM .env
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
